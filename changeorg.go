@@ -21,7 +21,7 @@ func NewChangeOrgClient(key string) *ChangeOrg {
 	return &ChangeOrg{Key: key, Host: Host}
 }
 
-func (c *ChangeOrg) Petition_Id(args PetitionIdArgs) (*int, error) {
+func (c *ChangeOrg) GetPetitionId(args PetitionIdArgs) (*int, error) {
 	v := url.Values{}
 	v.Set("api_key", c.Key)
 	if len(args.PetitionURL) > 0 {
