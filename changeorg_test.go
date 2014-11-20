@@ -12,6 +12,7 @@ func init() {
 	params["API_KEY"] = "my_api_key"
 	params["SECRET"] = "my_secret_token"
 	params["URL"] = "https://www.change.org/p/sample-for-developers-using-change-org-api-sign-petition-via-change-org-api"
+	params["PETITION_ID"] = "2268806"
 }
 
 func TestID(t *testing.T) {
@@ -25,4 +26,32 @@ func TestID(t *testing.T) {
 	}
 	fmt.Println(msg)
 	fmt.Println("Petition Id:", *id)
+}
+
+func TestAuthKey(t *testing.T) {
+	id := params["PETITION_ID"]
+	if len(id) <= 0 {
+		err := "Petition ID is empty. Use GetPetitionId first."
+		t.Fatal(err)
+	}
+	msg := "Requesting Auth Key!\n"
+	change_org := NewChangeOrgClient(params["API_KEY"])
+	authKey, err := change_org.GetAuthKey(AuthKeysArgs{
+		PetitionID:     id,
+		SourceDesc:     "source_description",
+		Source:         "source_that_is_using_the_api",
+		RequesterEmail: "developer_email",
+		TimeStamp:      GetTimeNow(),
+		Endpoint:       "/v1/petitions/" + id + "/auth_keys",
+		Callback:       "mycallback",
+	}, params["SECRET"])
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(authKey) > 0 {
+		msg += "Auth Key: " + authKey
+	} else {
+		msg += "No Auth Key was returned."
+	}
+	fmt.Println(msg)
 }
