@@ -48,10 +48,6 @@ func TestAuthKey(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(authKey) > 0 {
-		msg += "Auth Key: " + authKey
-	} else {
-		msg += "No Auth Key was returned."
-	}
+	msg += "Auth Key: " + authKey
 	fmt.Println(msg)
 }
