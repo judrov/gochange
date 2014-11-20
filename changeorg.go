@@ -39,6 +39,25 @@ func (c *ChangeOrg) GetPetitionId(args PetitionIdArgs) (*int, error) {
 	return &bodyRes.PetitionID, err
 }
 
+// GetAuthKey grants authorization to gather signatures for a petition
+// and returns the authorization code. You will receive the code via email.
+func (c *ChangeOrg) GetAuthKey(args AuthKeysArgs, secret string) (string, error) {
+	var res Response
+	v := url.Values{}
+	v.Set("api_key", c.Key)
+	v.Set("petition_id", args.PetitionID)
+	v.Set("source_description", args.SourceDesc)
+	v.Set("source", args.Source)
+	v.Set("requester_email", args.RequesterEmail)
+	v.Set("timestamp", args.TimeStamp)
+	v.Set("callback", args.Callback)
+	v.Set("endpoint", args.Endpoint)
+	v.Set("rsig", Hash(v.Encode()+secret))
+	url := c.Host + "petitions/" + args.PetitionID + "/auth_keys"
+	err := Post(url, v.Encode(), &res)
+	return res.AuthKey, err
+}
+
 func unmarshal(res *http.Response, bodyRes *Response) error {
 	b, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
