@@ -1,9 +1,6 @@
 package changeorg
 
-type Petition struct {
-	ID int
-}
-
+// Declares PetitionArgs for constructing signature requests.
 type PetitionArgs struct {
 	PetitionID string `json:"petition_id"`
 	AuthKey    string `json:"auth_key"`
@@ -22,6 +19,7 @@ type PetitionArgs struct {
 	Endpoint   string `json:"endpoint"`
 }
 
+// Declares AuthKeysArgs for constructing auth key retrival requests.
 type AuthKeysArgs struct {
 	PetitionID        string `json:"petition_id"`
 	SourceDesc        string `json:"source_description"`
@@ -34,6 +32,7 @@ type AuthKeysArgs struct {
 	RSIG              string `json:"rsig"`
 }
 
+// Declares AuthKeysResponse for storing auth key request responses.
 type AuthKeysResponse struct {
 	PetitionID     string   `json:"petition_id"`
 	SourceDesc     string   `json:"source_description"`
@@ -45,10 +44,12 @@ type AuthKeysResponse struct {
 	Messages       []string `json:"messages"`
 }
 
+// Declares PetitionIdArgs for constructing petition id requests.
 type PetitionIdArgs struct {
 	PetitionURL string `json:"petition_url"`
 }
 
+// Declares Response to store request reponses.
 type Response struct {
 	PetitionID int      `json:"petition_id"`
 	AuthKey    string   `json:"auth_key"`

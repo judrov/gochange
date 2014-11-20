@@ -1,5 +1,6 @@
 package changeorg
 
+// Imports required packages.
 import (
 	"crypto/sha256"
 	"encoding/hex"
