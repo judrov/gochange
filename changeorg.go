@@ -58,6 +58,29 @@ func (c *ChangeOrg) GetAuthKey(args AuthKeysArgs, secret string) (string, error)
 	return res.AuthKey, err
 }
 
+// SignPetition adds a signature to a petition.
+func (c *ChangeOrg) SignPetition(args PetitionArgs, secret string) (string, error) {
+	var res Response
+	v := url.Values{}
+	v.Set("api_key", c.Key)
+	v.Set("timestamp", args.TimeStamp)
+	v.Set("endpoint", args.Endpoint)
+	v.Set("source", args.Source)
+	v.Set("email", args.Email)
+	v.Set("first_name", args.FirstName)
+	v.Set("last_name", args.LastName)
+	v.Set("address", args.Address)
+	v.Set("city", args.City)
+	v.Set("state_province", args.State)
+	v.Set("postal_code", args.ZIP)
+	v.Set("country_code", args.Country)
+	v.Set("hidden", args.Hidden)
+	v.Set("rsig", Hash(v.Encode()+secret+args.AuthKey))
+	url := c.Host + "petitions/" + args.PetitionID + "/signatures"
+	err := Post(url, v.Encode(), &res)
+	return res.Result, err
+}
+
 func unmarshal(res *http.Response, bodyRes *Response) error {
 	b, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()

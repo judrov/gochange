@@ -4,6 +4,24 @@ type Petition struct {
 	ID int
 }
 
+type PetitionArgs struct {
+	PetitionID string `json:"petition_id"`
+	AuthKey    string `json:"auth_key"`
+	Source     string `json:"source"`
+	Email      string `json:"email"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	Address    string `json:"address"`
+	City       string `json:"city"`
+	State      string `json:"state_province"`
+	ZIP        string `json:"postal_code"`
+	Country    string `json:"country_code"`
+	Hidden     string `json:"hidden"`
+	RSIG       string `json:"rsig"`
+	TimeStamp  string `json:"timestamp"`
+	Endpoint   string `json:"endpoint"`
+}
+
 type AuthKeysArgs struct {
 	PetitionID        string `json:"petition_id"`
 	SourceDesc        string `json:"source_description"`
