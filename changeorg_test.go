@@ -1,9 +1,11 @@
-package changeorg
+package gochange
 
 // Imports required packages.
 import (
-	"fmt"
+	"log"
 	"testing"
+
+	"github.com/judrov/gochange/model"
 )
 
 // Creates map for application parameters.
@@ -26,46 +28,44 @@ func init() {
 
 // TestID tests GetPetitionId function.
 func TestID(t *testing.T) {
-	msg := "Welcome to gochangeorg!"
+	log.Println("Welcome to gochange!")
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	id, err := change_org.GetPetitionId(PetitionIdArgs{
+	id, err := change_org.GetPetitionId(model.PetitionIdArgs{
 		PetitionURL: params["URL"],
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println(msg)
-	fmt.Println("Petition Id:", *id)
+	log.Println("Petition Id:", *id)
 }
 
 // TestAuthKey tests GetAuthKey function.
 func TestAuthKey(t *testing.T) {
+	log.Println("Requesting Auth Key.")
 	id := params["PETITION_ID"]
 	// checks if petition id is set.
 	if len(id) <= 0 {
 		err := "Petition ID is empty. Use GetPetitionId first."
 		t.Fatal(err)
 	}
-	msg := "Requesting Auth Key!\n"
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	authKey, err := change_org.GetAuthKey(AuthKeysArgs{
+	authKey, err := change_org.GetAuthKey(model.AuthKeysArgs{
 		PetitionID:     id,
 		SourceDesc:     "source_description",
 		Source:         "source_that_is_using_the_api",
 		RequesterEmail: "developer_email",
-		TimeStamp:      GetTimeNow(),
-		Endpoint:       "/v1/petitions/" + id + "/auth_keys",
 		Callback:       "mycallback",
 	}, params["SECRET"])
 	if err != nil {
 		t.Fatal(err)
 	}
-	msg += "Auth Key: " + authKey
-	fmt.Println(msg)
+	msg := "Auth Key: " + authKey
+	log.Println(msg)
 }
 
 // TestSignature tests SignPetition function.
 func TestSignature(t *testing.T) {
+	log.Println("Go sign a petition via API. Pun intended ;)")
 	id := params["PETITION_ID"]
 	// checks if petition id is set.
 	if len(id) <= 0 {
@@ -78,10 +78,8 @@ func TestSignature(t *testing.T) {
 		err := "Auth Key is empty. Use GetAuthKey first."
 		t.Fatal(err)
 	}
-	msg := "Welcome to gochangeorg!\n"
-	msg += "Go sign a petition via API! Pun intended ;)\n"
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	response, err := change_org.SignPetition(PetitionArgs{
+	response, err := change_org.SignPetition(model.PetitionArgs{
 		PetitionID: id,
 		AuthKey:    auth_key,
 		Source:     "source_that_is_using_the_api",
@@ -94,12 +92,10 @@ func TestSignature(t *testing.T) {
 		ZIP:        "06520",
 		Country:    "US",
 		Hidden:     "true",
-		TimeStamp:  GetTimeNow(),
-		Endpoint:   "/v1/petitions/" + id + "/signatures",
 	}, params["SECRET"])
 	if err != nil {
 		t.Fatal(err)
 	}
-	msg += "Response: " + response
-	fmt.Println(msg)
+	msg := "Response: " + response
+	log.Println(msg)
 }
