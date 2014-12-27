@@ -12,7 +12,7 @@ go get github.com/judrov/gochange
 
 Usage
 ------------
-#####Import gochange package
+#####Import `package gochange`
 ```go
 import "github.com/judrov/gochange"
 ```
@@ -72,12 +72,21 @@ response, err := change_org.SignPetition(gochange.PetitionArgs{
 }, params["SECRET"])
 ```
 
+Testing
+------------
+To test the `package gochange`, run:
+```go
+go test github.com/judrov/gochange
+```
 
 Sample petition for developers
 ------------
-This is a sample petition for developers wanting to test adding signatures to petitions via @Change's [API] (https://github.com/change/api_docs): 
+I've created a sample petition for developers to test adding signatures via [Change.org API] (https://github.com/change/api_docs): 
 
 https://www.change.org/p/sample-for-developers-using-change-org-api-sign-petition-via-change-org-api
 
 Enjoy signing this petition via the Change.org API! 
 
+License
+------------
+[MIT] (https://github.com/judrov/gochange/blob/master/LICENSE)
