@@ -4,8 +4,6 @@ package gochange
 import (
 	"log"
 	"testing"
-
-	"github.com/judrov/gochange/model"
 )
 
 // Creates map for application parameters.
@@ -30,7 +28,7 @@ func init() {
 func TestID(t *testing.T) {
 	log.Println("Welcome to gochange!")
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	id, err := change_org.GetPetitionId(model.PetitionIdArgs{
+	id, err := change_org.GetPetitionId(PetitionIdArgs{
 		PetitionURL: params["URL"],
 	})
 	if err != nil {
@@ -49,7 +47,7 @@ func TestAuthKey(t *testing.T) {
 		t.Fatal(err)
 	}
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	authKey, err := change_org.GetAuthKey(model.AuthKeysArgs{
+	authKey, err := change_org.GetAuthKey(AuthKeysArgs{
 		PetitionID:     id,
 		SourceDesc:     "source_description",
 		Source:         "source_that_is_using_the_api",
@@ -79,7 +77,7 @@ func TestSignature(t *testing.T) {
 		t.Fatal(err)
 	}
 	change_org := NewChangeOrgClient(params["API_KEY"])
-	response, err := change_org.SignPetition(model.PetitionArgs{
+	response, err := change_org.SignPetition(PetitionArgs{
 		PetitionID: id,
 		AuthKey:    auth_key,
 		Source:     "source_that_is_using_the_api",

@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/judrov/gochange/model"
 	"github.com/judrov/gochange/util"
 )
 
@@ -29,7 +28,7 @@ func NewChangeOrgClient(key string) *ChangeOrg {
 }
 
 // GetPetitionId gets the petition id for a given petition url.
-func (c *ChangeOrg) GetPetitionId(args model.PetitionIdArgs) (*int, error) {
+func (c *ChangeOrg) GetPetitionId(args PetitionIdArgs) (*int, error) {
 	// sets up the request parameters.
 	v := url.Values{}
 	v.Set("api_key", c.Key)
@@ -44,7 +43,7 @@ func (c *ChangeOrg) GetPetitionId(args model.PetitionIdArgs) (*int, error) {
 		return nil, err
 	}
 	// parses the JSON response
-	var res model.PetitionIdResponse
+	var res PetitionIdResponse
 	if err := util.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
@@ -58,7 +57,7 @@ func (c *ChangeOrg) GetPetitionId(args model.PetitionIdArgs) (*int, error) {
 
 // GetAuthKey grants authorization to gather signatures for a petition
 // and returns the authorization code. You will receive the code via email.
-func (c *ChangeOrg) GetAuthKey(args model.AuthKeysArgs, secret string) (string, error) {
+func (c *ChangeOrg) GetAuthKey(args AuthKeysArgs, secret string) (string, error) {
 	// sets up the petition parameters.
 	v := url.Values{}
 	v.Set("api_key", c.Key)
@@ -73,7 +72,7 @@ func (c *ChangeOrg) GetAuthKey(args model.AuthKeysArgs, secret string) (string, 
 	// sets up the URL for requesting authorization key for a petition.
 	url := c.Host + "petitions/" + args.PetitionID + "/auth_keys"
 	// makes the request.
-	var res model.AuthKeysResponse
+	var res AuthKeysResponse
 	if err := util.Post(url, v.Encode(), &res); err != nil {
 		return res.AuthKey, err
 	}
@@ -86,7 +85,7 @@ func (c *ChangeOrg) GetAuthKey(args model.AuthKeysArgs, secret string) (string, 
 }
 
 // SignPetition adds a signature to a petition.
-func (c *ChangeOrg) SignPetition(args model.PetitionArgs, secret string) (string, error) {
+func (c *ChangeOrg) SignPetition(args PetitionArgs, secret string) (string, error) {
 	// sets up the signature parameters.
 	v := url.Values{}
 	v.Set("api_key", c.Key)
@@ -106,7 +105,7 @@ func (c *ChangeOrg) SignPetition(args model.PetitionArgs, secret string) (string
 	// sets up the URL for adding petition signatures.
 	url := c.Host + "petitions/" + args.PetitionID + "/signatures"
 	// POST the parameters to the signature endpoint.
-	var res model.PetitionResponse
+	var res PetitionResponse
 	if err := util.Post(url, v.Encode(), &res); err != nil {
 		return res.Result, err
 	}

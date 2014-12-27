@@ -1,6 +1,9 @@
-// Package model contains structs to store request and response parameters
+// This file contains structs to store request and response parameters
 // for interacting with the Change.org API.
-package model
+
+// Package gochange provides functionalities in Go to add signatures
+// to petitions via the Change.org API.
+package gochange
 
 // Declares PetitionIdArgs for constructing petition id requests.
 type PetitionIdArgs struct {
